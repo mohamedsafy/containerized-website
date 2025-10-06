@@ -39,6 +39,7 @@ export function App() {
       <h1>Hey Team! 👋</h1>
       <CurrentTime api="/api/golang/"/>
       <CurrentTime api="/api/node/"/>
+      <CurrentTime api="/api/python/"/>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
