@@ -18,3 +18,4 @@ jobs:
             - name: step #1
               run: print("1+5 =", 1+5)
               shell: python
+        needs: hello-world-inline-bash
