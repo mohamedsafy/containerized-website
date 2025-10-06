@@ -6,5 +6,9 @@ jobs:
     hello-world-job:
         runs-on: ubuntu-24.04
         steps:
-            - run: echo "Hello from the echo step inside hello world job!"  
+            - name: step \#1
+              run: echo "Hello from the echo step inside hello world job!"  
+
+            - name: step \#2
+              run: echo "This is step 2 in the hello workspace"  
     
