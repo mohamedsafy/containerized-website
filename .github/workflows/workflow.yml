@@ -3,7 +3,7 @@ name: Hello World Workflow
 on: workflow_dispatch
 
 jobs:
-    hello-world-job:
+    hello-world-inline-bash:
         runs-on: ubuntu-24.04
         steps:
             - name: step \#1
@@ -12,3 +12,9 @@ jobs:
             - name: step \#2
               run: echo "This is step 2 in the hello workspace"  
     
+    hello-world-inline-python:
+        runs-on: ubuntu-24.04
+        steps:
+            - name: step #1
+              run: print("1+5 =", 1+5)
+              shell: python
