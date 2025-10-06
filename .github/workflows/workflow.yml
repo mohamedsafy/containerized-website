@@ -6,15 +6,29 @@ on:
         branches:
             - "api-python"
 
+env:
+    WORKFLOW_LEVEL_VAR1: HELLO_FROM_WORKFLOW_1
+    WORKFLOW_LEVEL_VAR2: HELLO_FROM_WORKFLOW_2
+
 jobs:
     hello-world-inline-bash:
         runs-on: ubuntu-24.04
+        env:
+            JOB_LEVEL_VAR1: HELLO_FROM_JOB_1
         steps:
             - name: step \#1
+              env:
+                STEP_LEVEL_VAR1: HELLO_FROM_STEP_1
+                STEP_LEVEL_VAR2: HELLO_FROM_STEP_2
               run: echo "Hello from the echo step inside hello world job!"  
 
             - name: step \#2
-              run: echo "This is step 2 in the hello workspace"  
+              run: |
+                echo "STEP_LEVEL_VAR1:$STEP_LEVEL_VAR1" 
+                echo "STEP_LEVEL_VAR2:$STEP_LEVEL_VAR2"
+                echo "JOB_LEVEL_VAR1:$JOB_LEVEL_VAR1" 
+                echo "WORKFLOW_LEVEL_VAR1:$WORKFLOW_LEVEL_VAR1" 
+                echo "WORKFLOW_LEVEL_VAR2:$WORKFLOW_LEVEL_VAR2"
     
     hello-world-inline-python:
         runs-on: ubuntu-24.04
@@ -22,5 +36,13 @@ jobs:
             - name: step #1
               run: print("1+5 =", 1+5)
               shell: python
+              
+            - name: step 2
+              run: |
+                echo "STEP_LEVEL_VAR1:$STEP_LEVEL_VAR1" 
+                echo "STEP_LEVEL_VAR2:$STEP_LEVEL_VAR2"
+                echo "JOB_LEVEL_VAR1:$JOB_LEVEL_VAR1" 
+                echo "WORKFLOW_LEVEL_VAR1:$WORKFLOW_LEVEL_VAR1" 
+                echo "WORKFLOW_LEVEL_VAR2:$WORKFLOW_LEVEL_VAR2"
         needs: 
             - hello-world-inline-bash
