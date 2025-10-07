@@ -60,4 +60,4 @@ jobs:
         - name:
           run: |
             echo ${{needs.hello-world-inline-bash.outputs.foo}}
-            echo $FOO
+            echo ${FOO}
