@@ -13,9 +13,18 @@ env:
 jobs:
     hello-world-inline-bash:
         runs-on: ubuntu-24.04
+        outputs:
+          foo: ${{steps.generate-foo.outputs.foo}}
         env:
-            JOB_LEVEL_VAR1: HELLO_FROM_JOB_1
+          JOB_LEVEL_VAR1: HELLO_FROM_JOB_1
+
         steps:
+            - name: generate foo
+              id: generate-foo
+              run: |
+                foo=bar
+                echo "foo=${foo}" >> "$GITHUB_OUTPUT"
+                echo "FOO=${foo}" >> "$GITHUB_ENV"
             - name: step \#1
               env:
                 STEP_LEVEL_VAR1: HELLO_FROM_STEP_1
@@ -24,11 +33,7 @@ jobs:
 
             - name: step \#2
               run: |
-                echo "STEP_LEVEL_VAR1:$STEP_LEVEL_VAR1" 
-                echo "STEP_LEVEL_VAR2:$STEP_LEVEL_VAR2"
-                echo "JOB_LEVEL_VAR1:$JOB_LEVEL_VAR1" 
-                echo "WORKFLOW_LEVEL_VAR1:$WORKFLOW_LEVEL_VAR1" 
-                echo "WORKFLOW_LEVEL_VAR2:$WORKFLOW_LEVEL_VAR2"
+                echo ${{steps.generate-foo.outputs.foo}}
     
     hello-world-inline-python:
         runs-on: ubuntu-24.04
@@ -46,3 +51,13 @@ jobs:
                 echo "WORKFLOW_LEVEL_VAR2:$WORKFLOW_LEVEL_VAR2"
         needs: 
             - hello-world-inline-bash
+
+    print-outputs:
+      runs-on: ubuntu-24.04
+      needs:
+        - hello-world-inline-bash
+      steps:
+        - name:
+          run: |
+            echo ${{needs.hello-world-inline-bash.outputs.foo}}
+            echo $FOO
