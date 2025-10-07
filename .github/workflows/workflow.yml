@@ -34,6 +34,8 @@ jobs:
             - name: step \#2
               run: |
                 echo ${{steps.generate-foo.outputs.foo}}
+                echo $FOO
+                echo ${FOO}
     
     hello-world-inline-python:
         runs-on: ubuntu-24.04
